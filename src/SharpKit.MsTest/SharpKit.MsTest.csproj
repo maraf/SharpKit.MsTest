@@ -44,6 +44,8 @@
     <Compile Include="AssertFailedException.cs" />
     <Compile Include="AssertInconclusiveException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCategoryAttribute.cs" />
+    <Compile Include="TestCategoryBaseAttribute.cs" />
     <Compile Include="TestClassAttribute.cs" />
     <Compile Include="TestMethodAttribute.cs" />
     <Compile Include="UnitTestAssertException.cs" />
