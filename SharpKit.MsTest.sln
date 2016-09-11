@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKit.MsTest.UI", "src\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKit.MsTest.Hosting", "src\SharpKit.MsTest.Hosting\SharpKit.MsTest.Hosting.csproj", "{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{0CEE8811-091E-4A15-BD0F-0D025D301491}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "src\UnitTest\UnitTest.csproj", "{3884B21D-926D-4D84-AF57-A92BF659B5B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +31,15 @@ Global
 		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3884B21D-926D-4D84-AF57-A92BF659B5B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3884B21D-926D-4D84-AF57-A92BF659B5B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3884B21D-926D-4D84-AF57-A92BF659B5B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3884B21D-926D-4D84-AF57-A92BF659B5B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3884B21D-926D-4D84-AF57-A92BF659B5B3} = {0CEE8811-091E-4A15-BD0F-0D025D301491}
 	EndGlobalSection
 EndGlobal
