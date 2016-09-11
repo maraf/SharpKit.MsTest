@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKit.MsTest", "src\Shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKit.MsTest.UI", "src\SharpKit.MsTest.UI\SharpKit.MsTest.UI.csproj", "{44ECD1BF-58FB-473E-BAFB-A258938A7F6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpKit.MsTest.Hosting", "src\SharpKit.MsTest.Hosting\SharpKit.MsTest.Hosting.csproj", "{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{44ECD1BF-58FB-473E-BAFB-A258938A7F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44ECD1BF-58FB-473E-BAFB-A258938A7F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44ECD1BF-58FB-473E-BAFB-A258938A7F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9090CF6-7F0A-4E00-9D64-A7F2CE046736}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

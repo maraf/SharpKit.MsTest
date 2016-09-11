@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Exugin xmlns="http://schemas.neptuo.com/xsd/neptuo-sharpkit-exugin.xsd">
   <Export Filename="SharpKit.MsTest.UI.js" FilenameFormat="~/bin/{0}" />
+  <Type Target="SharpKit.MsTest.UI.TestRuntime" Name="TestRuntime" />
 </Exugin>
