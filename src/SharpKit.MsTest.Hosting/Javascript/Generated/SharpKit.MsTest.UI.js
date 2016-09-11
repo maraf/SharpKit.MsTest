@@ -13,7 +13,16 @@ var SharpKit$MsTest$UI$TestClassProvider = {
         },
         GetTestClasses: function (){
             var result = new System.Collections.Generic.List$1.ctor(System.Type.ctor);
-            for (var $i2 = 0,$t2 = this.GetClasses(),$l2 = $t2.length,type = $t2[$i2]; $i2 < $l2; $i2++, type = $t2[$i2]){
+            var types = this.GetClasses();
+            for (var typeName in types){
+                var type = types[typeName]._ClrType;
+                try{
+                    var attribute = System.Linq.Enumerable.FirstOrDefault$1$$IEnumerable$1(Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute.ctor, System.Linq.Enumerable.OfType$1(Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute.ctor, type.GetCustomAttributes$$Boolean(true)));
+                    if (attribute != null)
+                        result.Add(type);
+                }
+                catch($$e1){
+                }
             }
             return result;
         },
@@ -29,6 +38,25 @@ var SharpKit$MsTest$UI$TestClassProvider = {
     IsAbstract: false
 };
 JsTypes.push(SharpKit$MsTest$UI$TestClassProvider);
+var SharpKit$MsTest$UI$TestClassProvider$ClrTypeGetter = {
+    fullname: "SharpKit.MsTest.UI.TestClassProvider.ClrTypeGetter",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (){
+            this._ClrType = null;
+            System.Object.ctor.call(this);
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: []
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$UI$TestClassProvider$ClrTypeGetter);
 var SharpKit$MsTest$UI$TestPresenter = {
     fullname: "SharpKit.MsTest.UI.TestPresenter",
     baseTypeName: "System.Object",
@@ -46,9 +74,9 @@ var SharpKit$MsTest$UI$TestPresenter = {
                 html.Append$$String("No test classes found.");
             }
             else {
-                var $it2 = testClasses.GetEnumerator();
-                while ($it2.MoveNext()){
-                    var testClass = $it2.get_Current();
+                var $it1 = testClasses.GetEnumerator();
+                while ($it1.MoveNext()){
+                    var testClass = $it1.get_Current();
                     html.Append$$String(testClass.get_FullName());
                     html.Append$$String("<br />");
                 }

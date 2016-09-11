@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using SharpKit.JavaScript;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -34,3 +35,7 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: JsType(TargetType = typeof(Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute), Export = true)]
+[assembly: JsType(TargetType = typeof(Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute), Export = true)]
+[assembly: JsType(TargetType = typeof(Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute), Export = true)]

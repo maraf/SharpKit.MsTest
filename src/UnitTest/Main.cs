@@ -14,5 +14,14 @@ namespace UnitTest
             int result = a + b;
             Assert.AreEqual(12, result);
         }
+
+        [TestMethod]
+        public void Substract()
+        {
+            int a = 5;
+            int b = 7;
+            int result = a - b;
+            Assert.AreEqual(-2, result);
+        }
     }
 }
