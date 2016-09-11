@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpKit.MsTest
+namespace Microsoft.VisualStudio.TestTools.UnitTesting
 {
     public class Assert
     {
+
     }
 }
