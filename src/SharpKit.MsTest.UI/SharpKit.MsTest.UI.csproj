@@ -7,7 +7,7 @@
     <ProjectGuid>{44ECD1BF-58FB-473E-BAFB-A258938A7F6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpKit.MsTest.UI</RootNamespace>
+    <RootNamespace>SharpKit.MsTest</RootNamespace>
     <AssemblyName>SharpKit.MsTest.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,10 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestClassProvider.cs" />
-    <Compile Include="TestPresenter.cs" />
+    <Compile Include="Metadata\TestAssemblyModel.cs" />
+    <Compile Include="UI\TestCaseProvider.cs" />
+    <Compile Include="Metadata\TestMethodModel.cs" />
+    <Compile Include="UI\TestPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRuntime.cs" />
+    <Compile Include="Metadata\TestTypeModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SharpKit.MsTest.UI.xml" />

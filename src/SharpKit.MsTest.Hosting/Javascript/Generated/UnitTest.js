@@ -20,6 +20,11 @@ var UnitTest$Main = {
         targetMemberName: "Substract",
         typeName: "Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute",
         ctorName: "ctor"
+    }, {
+        targetType: "method",
+        targetMemberName: "Multiply",
+        typeName: "Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute",
+        ctorName: "ctor"
     }
     ],
     Kind: "Class",
@@ -38,6 +43,12 @@ var UnitTest$Main = {
             var b = 7;
             var result = a - b;
             Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual$1$$T$$T(System.Int32.ctor, -2, result);
+        },
+        Multiply: function (){
+            var a = 5;
+            var b = 7;
+            var result = a * b;
+            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual$1$$T$$T(System.Int32.ctor, 35, result);
         }
     },
     ctors: [{

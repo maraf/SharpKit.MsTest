@@ -1,5 +1,6 @@
 ﻿using SharpKit.JavaScript;
 using SharpKit.JavaScript.Compilation;
+using SharpKit.MsTest.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +11,30 @@ namespace SharpKit.MsTest.UI
 {
     public class TestPresenter
     {
-        private readonly TestClassProvider testClassProvider = new TestClassProvider();
+        private readonly TestCaseProvider testClassProvider = new TestCaseProvider();
 
         public void Render(jQuery.jQuery root)
         {
-            List<Type> testClasses = testClassProvider.GetTestClasses();
+            List<TestAssemblyModel> assemblies = testClassProvider.Load();
             StringBuilder html = new StringBuilder();
-            if (testClasses.Count == 0)
+            if (assemblies.Count == 0)
             {
                 html.Append("No test classes found.");
             }
             else
             {
-                foreach (Type testClass in testClasses)
+                foreach (TestAssemblyModel assembly in assemblies)
                 {
-                    html.Append(testClass.FullName);
+                    html.Append("<strong>" + assembly.Name + "</strong>");
                     html.Append("<br />");
+
+                    foreach (TestTypeModel type in assembly.Classes)
+                    {
+                        html.Append(type.Type.Name);
+                        html.Append("<br />");
+                    }
+
+                    html.Append("<hr />");
                 }
             }
 
