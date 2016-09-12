@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace SharpKit.MsTest.Metadata
 {
-    public class TestTypeModel
+    public class TestClassModel
     {
         private readonly List<TestMethodModel> methods;
 
         public Type Type { get; private set; }
-        public IReadOnlyList<TestMethodModel> Methods { get; private set; }
+        public IReadOnlyList<TestMethodModel> Methods
+        {
+            get { return methods; }
+        }
 
-        public TestTypeModel(Type type)
+        public TestClassModel(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -22,7 +25,7 @@ namespace SharpKit.MsTest.Metadata
             methods = new List<TestMethodModel>();
         }
 
-        public TestTypeModel AddMethod(TestMethodModel method)
+        public TestClassModel AddMethod(TestMethodModel method)
         {
             if (method == null)
                 throw new ArgumentNullException("method");

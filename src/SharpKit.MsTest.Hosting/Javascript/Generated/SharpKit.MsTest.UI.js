@@ -28,7 +28,7 @@ var SharpKit$MsTest$Metadata$TestAssemblyModel = {
             this._Name = null;
             System.Object.ctor.call(this);
             this.set_Name(name);
-            this.classes = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.Metadata.TestTypeModel.ctor);
+            this.classes = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.Metadata.TestClassModel.ctor);
         },
         Name$$: "System.String",
         get_Name: function (){
@@ -37,7 +37,7 @@ var SharpKit$MsTest$Metadata$TestAssemblyModel = {
         set_Name: function (value){
             this._Name = value;
         },
-        Classes$$: "System.Collections.Generic.IReadOnlyList`1[[SharpKit.MsTest.Metadata.TestTypeModel]]",
+        Classes$$: "System.Collections.Generic.IReadOnlyList`1[[SharpKit.MsTest.Metadata.TestClassModel]]",
         get_Classes: function (){
             return this.classes;
         },
@@ -56,8 +56,145 @@ var SharpKit$MsTest$Metadata$TestAssemblyModel = {
     IsAbstract: false
 };
 JsTypes.push(SharpKit$MsTest$Metadata$TestAssemblyModel);
-var SharpKit$MsTest$UI$TestCaseProvider = {
-    fullname: "SharpKit.MsTest.UI.TestCaseProvider",
+var SharpKit$MsTest$UI$CategoryView = {
+    fullname: "SharpKit.MsTest.UI.CategoryView",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (){
+            System.Object.ctor.call(this);
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: []
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$UI$CategoryView);
+var SharpKit$MsTest$UI$ClassView = {
+    fullname: "SharpKit.MsTest.UI.ClassView",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (root){
+            this.root = null;
+            this.methods = null;
+            System.Object.ctor.call(this);
+            this.root = root;
+            this.methods = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.UI.MethodView.ctor);
+        },
+        Render: function (classes){
+            var html = new System.Text.StringBuilder.ctor();
+            var $it1 = classes.GetEnumerator();
+            while ($it1.MoveNext()){
+                var type = $it1.get_Current();
+                html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-group");
+                html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\'>{1}</div>", "mst-header", type.get_Type().get_Name());
+                var $it2 = type.get_Methods().GetEnumerator();
+                while ($it2.MoveNext()){
+                    var method = $it2.get_Current();
+                    var view = new SharpKit.MsTest.UI.MethodView.ctor(method);
+                    view.Render(html);
+                }
+                html.Append$$String("</div>");
+            }
+            this.root.html(html.toString());
+            var $it3 = this.methods.GetEnumerator();
+            while ($it3.MoveNext()){
+                var view = $it3.get_Current();
+                view.Bind(this.root);
+            }
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["SharpKit.jQuery.jQuery"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$UI$ClassView);
+var SharpKit$MsTest$UI$ClassView$CssClass = {
+    fullname: "SharpKit.MsTest.UI.ClassView.CssClass",
+    baseTypeName: "System.Object",
+    staticDefinition: {
+        cctor: function (){
+            SharpKit.MsTest.UI.ClassView.CssClass.Group = "mst-group";
+            SharpKit.MsTest.UI.ClassView.CssClass.Header = "mst-header";
+        }
+    },
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (){
+            System.Object.ctor.call(this);
+        }
+    },
+    ctors: [],
+    IsAbstract: true
+};
+JsTypes.push(SharpKit$MsTest$UI$ClassView$CssClass);
+var SharpKit$MsTest$UI$MainView = {
+    fullname: "SharpKit.MsTest.UI.MainView",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (root){
+            this.root = null;
+            System.Object.ctor.call(this);
+            this.root = root;
+        },
+        Render: function (){
+            var html = new System.Text.StringBuilder.ctor();
+            html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-container");
+            html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-controls");
+            html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-content");
+            html.Append$$String("</div>");
+            this.root.html(html.toString());
+        },
+        GetControls: function (){
+            return this.root.find(".mst-controls");
+        },
+        GetContent: function (){
+            return this.root.find(".mst-content");
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["SharpKit.jQuery.jQuery"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$UI$MainView);
+var SharpKit$MsTest$UI$MainView$CssClass = {
+    fullname: "SharpKit.MsTest.UI.MainView.CssClass",
+    baseTypeName: "System.Object",
+    staticDefinition: {
+        cctor: function (){
+            SharpKit.MsTest.UI.MainView.CssClass.Container = "mst-container";
+            SharpKit.MsTest.UI.MainView.CssClass.Controls = "mst-controls";
+            SharpKit.MsTest.UI.MainView.CssClass.Content = "mst-content";
+        }
+    },
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (){
+            System.Object.ctor.call(this);
+        }
+    },
+    ctors: [],
+    IsAbstract: true
+};
+JsTypes.push(SharpKit$MsTest$UI$MainView$CssClass);
+var SharpKit$MsTest$Metadata$TestCaseProvider = {
+    fullname: "SharpKit.MsTest.Metadata.TestCaseProvider",
     baseTypeName: "System.Object",
     assemblyName: "SharpKit.MsTest.UI",
     Kind: "Class",
@@ -83,9 +220,9 @@ var SharpKit$MsTest$UI$TestCaseProvider = {
         },
         LoadMetadata: function (types){
             var result = new System.Collections.Generic.Dictionary$2.ctor(System.String.ctor, SharpKit.MsTest.Metadata.TestAssemblyModel.ctor);
-            var $it1 = types.GetEnumerator();
-            while ($it1.MoveNext()){
-                var type = $it1.get_Current();
+            var $it4 = types.GetEnumerator();
+            while ($it4.MoveNext()){
+                var type = $it4.get_Current();
                 var assemblyName = type["_JsType"].assemblyName;
                 var assembly;
                 if (!(function (){
@@ -102,12 +239,12 @@ var SharpKit$MsTest$UI$TestCaseProvider = {
             return System.Linq.Enumerable.ToList$1(SharpKit.MsTest.Metadata.TestAssemblyModel.ctor, result.get_Values());
         },
         LoadClassMetadata: function (assemblyModel, type){
-            var model = new SharpKit.MsTest.Metadata.TestTypeModel.ctor(type);
-            for (var $i3 = 0,$t3 = type.GetMethods(),$l3 = $t3.length,method = $t3[$i3]; $i3 < $l3; $i3++, method = $t3[$i3]){
+            var model = new SharpKit.MsTest.Metadata.TestClassModel.ctor(type);
+            for (var $i6 = 0,$t6 = type.GetMethods(),$l6 = $t6.length,method = $t6[$i6]; $i6 < $l6; $i6++, method = $t6[$i6]){
                 var isTestMethod = false;
                 var categories = new System.Collections.Generic.List$1.ctor(System.String.ctor);
                 var attributes = method.GetCustomAttributes$$Boolean(true);
-                for (var $i4 = 0,$l4 = attributes.length,attribute = attributes[$i4]; $i4 < $l4; $i4++, attribute = attributes[$i4]){
+                for (var $i7 = 0,$l7 = attributes.length,attribute = attributes[$i7]; $i7 < $l7; $i7++, attribute = attributes[$i7]){
                     var categoryAttribute = As(attribute, Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryBaseAttribute.ctor);
                     if (categoryAttribute != null)
                         categories.AddRange(categoryAttribute.get_TestCategories());
@@ -116,7 +253,7 @@ var SharpKit$MsTest$UI$TestCaseProvider = {
                         isTestMethod = true;
                 }
                 if (isTestMethod){
-                    var methodModel = new SharpKit.MsTest.Metadata.TestMethodModel.ctor(method, categories);
+                    var methodModel = new SharpKit.MsTest.Metadata.TestMethodModel.ctor(assemblyModel.get_Name() + "-" + type.get_FullName() + "-" + method.get_Name(), method, categories);
                     model.AddMethod(methodModel);
                     continue;
                 }
@@ -134,9 +271,9 @@ var SharpKit$MsTest$UI$TestCaseProvider = {
     ],
     IsAbstract: false
 };
-JsTypes.push(SharpKit$MsTest$UI$TestCaseProvider);
-var SharpKit$MsTest$UI$TestCaseProvider$ClrTypeGetter = {
-    fullname: "SharpKit.MsTest.UI.TestCaseProvider.ClrTypeGetter",
+JsTypes.push(SharpKit$MsTest$Metadata$TestCaseProvider);
+var SharpKit$MsTest$Metadata$TestCaseProvider$ClrTypeGetter = {
+    fullname: "SharpKit.MsTest.Metadata.TestCaseProvider.ClrTypeGetter",
     baseTypeName: "System.Object",
     assemblyName: "SharpKit.MsTest.UI",
     Kind: "Class",
@@ -153,22 +290,31 @@ var SharpKit$MsTest$UI$TestCaseProvider$ClrTypeGetter = {
     ],
     IsAbstract: false
 };
-JsTypes.push(SharpKit$MsTest$UI$TestCaseProvider$ClrTypeGetter);
+JsTypes.push(SharpKit$MsTest$Metadata$TestCaseProvider$ClrTypeGetter);
 var SharpKit$MsTest$Metadata$TestMethodModel = {
     fullname: "SharpKit.MsTest.Metadata.TestMethodModel",
     baseTypeName: "System.Object",
     assemblyName: "SharpKit.MsTest.UI",
     Kind: "Class",
     definition: {
-        ctor: function (method, categories){
+        ctor: function (uniqueId, method, categories){
+            this._UniqueId = null;
             this._Categories = null;
             this._Method = null;
             System.Object.ctor.call(this);
+            this.set_UniqueId(uniqueId);
             this.set_Method(method);
             if (categories == null)
                 this.set_Categories(new System.Collections.Generic.List$1.ctor(System.String.ctor));
             else
                 this.set_Categories(new System.Collections.Generic.List$1.ctor$$IEnumerable$1(System.String.ctor, categories));
+        },
+        UniqueId$$: "System.String",
+        get_UniqueId: function (){
+            return this._UniqueId;
+        },
+        set_UniqueId: function (value){
+            this._UniqueId = value;
         },
         Categories$$: "System.Collections.Generic.IReadOnlyList`1[[System.String]]",
         get_Categories: function (){
@@ -191,44 +337,104 @@ var SharpKit$MsTest$Metadata$TestMethodModel = {
     },
     ctors: [{
         name: "ctor",
-        parameters: ["System.Reflection.MethodInfo", "System.Collections.Generic.IEnumerable"]
+        parameters: ["System.String", "System.Reflection.MethodInfo", "System.Collections.Generic.IEnumerable"]
     }
     ],
     IsAbstract: false
 };
 JsTypes.push(SharpKit$MsTest$Metadata$TestMethodModel);
-var SharpKit$MsTest$UI$TestPresenter = {
-    fullname: "SharpKit.MsTest.UI.TestPresenter",
+var SharpKit$MsTest$UI$MethodView = {
+    fullname: "SharpKit.MsTest.UI.MethodView",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (model){
+            this._Model = null;
+            this._IsSelected = false;
+            System.Object.ctor.call(this);
+            this.set_Model(model);
+        },
+        Model$$: "SharpKit.MsTest.Metadata.TestMethodModel",
+        get_Model: function (){
+            return this._Model;
+        },
+        set_Model: function (value){
+            this._Model = value;
+        },
+        IsSelected$$: "System.Boolean",
+        get_IsSelected: function (){
+            return this._IsSelected;
+        },
+        set_IsSelected: function (value){
+            this._IsSelected = value;
+        },
+        Render: function (html){
+            html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\' data-method-id=\'{1}\'>", "mst-method-container", this.get_Model().get_UniqueId());
+            html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-method-status");
+            html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\'><input id=\'{1}\' type=\'checkbox\' /></div>", "mst-method-selector", this.get_Model().get_UniqueId());
+            html.AppendFormat$$String$$Object$$Object$$Object("<div class=\'{0}\'><label for=\'{1}\'>{2}</label></div>", "mst-method-name", this.get_Model().get_UniqueId(), this.get_Model().get_Method().get_Name());
+            html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-method-time");
+            html.Append$$String("</div>");
+        },
+        Bind: function (root){
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["SharpKit.MsTest.Metadata.TestMethodModel"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$UI$MethodView);
+var SharpKit$MsTest$UI$MethodView$CssClass = {
+    fullname: "SharpKit.MsTest.UI.MethodView.CssClass",
+    baseTypeName: "System.Object",
+    staticDefinition: {
+        cctor: function (){
+            SharpKit.MsTest.UI.MethodView.CssClass.Container = "mst-method-container";
+            SharpKit.MsTest.UI.MethodView.CssClass.Selector = "mst-method-selector";
+            SharpKit.MsTest.UI.MethodView.CssClass.Name = "mst-method-name";
+            SharpKit.MsTest.UI.MethodView.CssClass.Time = "mst-method-time";
+            SharpKit.MsTest.UI.MethodView.CssClass.Status = "mst-method-status";
+        }
+    },
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (){
+            System.Object.ctor.call(this);
+        }
+    },
+    ctors: [],
+    IsAbstract: true
+};
+JsTypes.push(SharpKit$MsTest$UI$MethodView$CssClass);
+var SharpKit$MsTest$UI$Presenter = {
+    fullname: "SharpKit.MsTest.UI.Presenter",
     baseTypeName: "System.Object",
     assemblyName: "SharpKit.MsTest.UI",
     Kind: "Class",
     definition: {
         ctor: function (){
-            this.testClassProvider = new SharpKit.MsTest.UI.TestCaseProvider.ctor();
+            this.testClassProvider = new SharpKit.MsTest.Metadata.TestCaseProvider.ctor();
+            this.mainView = null;
             System.Object.ctor.call(this);
         },
         Render: function (root){
             var assemblies = this.testClassProvider.Load();
-            var html = new System.Text.StringBuilder.ctor();
-            if (assemblies.get_Count() == 0){
-                html.Append$$String("No test classes found.");
+            this.mainView = new SharpKit.MsTest.UI.MainView.ctor(root);
+            this.mainView.Render();
+            var classes = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.Metadata.TestClassModel.ctor);
+            var $it7 = assemblies.GetEnumerator();
+            while ($it7.MoveNext()){
+                var assembly = $it7.get_Current();
+                classes.AddRange(assembly.get_Classes());
             }
-            else {
-                var $it4 = assemblies.GetEnumerator();
-                while ($it4.MoveNext()){
-                    var assembly = $it4.get_Current();
-                    html.Append$$String("<strong>" + assembly.get_Name() + "</strong>");
-                    html.Append$$String("<br />");
-                    var $it5 = assembly.get_Classes().GetEnumerator();
-                    while ($it5.MoveNext()){
-                        var type = $it5.get_Current();
-                        html.Append$$String(type.get_Type().get_Name());
-                        html.Append$$String("<br />");
-                    }
-                    html.Append$$String("<hr />");
-                }
-            }
-            root.html(html.toString());
+            var content = this.mainView.GetContent();
+            var view = new SharpKit.MsTest.UI.ClassView.ctor(content);
+            view.Render(classes);
         }
     },
     ctors: [{
@@ -238,7 +444,7 @@ var SharpKit$MsTest$UI$TestPresenter = {
     ],
     IsAbstract: false
 };
-JsTypes.push(SharpKit$MsTest$UI$TestPresenter);
+JsTypes.push(SharpKit$MsTest$UI$Presenter);
 var TestRuntime = {
     fullname: "TestRuntime",
     baseTypeName: "System.Object",
@@ -248,7 +454,7 @@ var TestRuntime = {
                 root = $(document.body);
             else
                 root = $(root);
-            var presenter = new SharpKit.MsTest.UI.TestPresenter.ctor();
+            var presenter = new SharpKit.MsTest.UI.Presenter.ctor();
             presenter.Render(root);
             return presenter;
         }
@@ -264,8 +470,8 @@ var TestRuntime = {
     IsAbstract: true
 };
 JsTypes.push(TestRuntime);
-var SharpKit$MsTest$Metadata$TestTypeModel = {
-    fullname: "SharpKit.MsTest.Metadata.TestTypeModel",
+var SharpKit$MsTest$Metadata$TestClassModel = {
+    fullname: "SharpKit.MsTest.Metadata.TestClassModel",
     baseTypeName: "System.Object",
     assemblyName: "SharpKit.MsTest.UI",
     Kind: "Class",
@@ -273,7 +479,6 @@ var SharpKit$MsTest$Metadata$TestTypeModel = {
         ctor: function (type){
             this.methods = null;
             this._Type = null;
-            this._Methods = null;
             System.Object.ctor.call(this);
             if (type == null)
                 throw $CreateException(new System.ArgumentNullException.ctor$$String("type"), new Error());
@@ -289,10 +494,7 @@ var SharpKit$MsTest$Metadata$TestTypeModel = {
         },
         Methods$$: "System.Collections.Generic.IReadOnlyList`1[[SharpKit.MsTest.Metadata.TestMethodModel]]",
         get_Methods: function (){
-            return this._Methods;
-        },
-        set_Methods: function (value){
-            this._Methods = value;
+            return this.methods;
         },
         AddMethod: function (method){
             if (method == null)
@@ -312,5 +514,5 @@ var SharpKit$MsTest$Metadata$TestTypeModel = {
     ],
     IsAbstract: false
 };
-JsTypes.push(SharpKit$MsTest$Metadata$TestTypeModel);
+JsTypes.push(SharpKit$MsTest$Metadata$TestClassModel);
 

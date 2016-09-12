@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpKit.MsTest.UI
+namespace SharpKit.MsTest.Metadata
 {
     public class TestCaseProvider
     {
@@ -52,7 +52,7 @@ namespace SharpKit.MsTest.UI
 
         private void LoadClassMetadata(TestAssemblyModel assemblyModel, Type type)
         {
-            TestTypeModel model = new TestTypeModel(type);
+            TestClassModel model = new TestClassModel(type);
 
             foreach (MethodInfo method in type.GetMethods())
             {
@@ -73,7 +73,11 @@ namespace SharpKit.MsTest.UI
 
                 if (isTestMethod)
                 {
-                    TestMethodModel methodModel = new TestMethodModel(method, categories);
+                    TestMethodModel methodModel = new TestMethodModel(
+                        assemblyModel.Name + "-" + type.FullName + "-" + method.Name, 
+                        method, 
+                        categories
+                    );
                     model.AddMethod(methodModel);
                     continue;
                 }

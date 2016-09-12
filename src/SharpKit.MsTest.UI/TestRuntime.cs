@@ -17,14 +17,14 @@ namespace SharpKit.MsTest.UI
         /// </summary>
         /// <param name="root">The optional jquery selector or object. If <c>null</c> document.body is used.</param>
         /// <returns>The instance of test presenter.</returns>
-        public static TestPresenter Start(jQuery.jQuery root = null)
+        public static Presenter Start(jQuery.jQuery root = null)
         {
             if (root == null)
                 root = new jQuery.jQuery(HtmlContext.document.body);
             else
                 root = new jQuery.jQuery(root);
 
-            TestPresenter presenter = new TestPresenter();
+            Presenter presenter = new Presenter();
             presenter.Render(root);
             return presenter;
         }

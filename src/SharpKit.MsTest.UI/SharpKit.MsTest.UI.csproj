@@ -45,12 +45,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Metadata\TestAssemblyModel.cs" />
-    <Compile Include="UI\TestCaseProvider.cs" />
+    <Compile Include="UI\CategoryView.cs" />
+    <Compile Include="UI\ClassView.cs" />
+    <Compile Include="UI\MainView.cs" />
+    <Compile Include="Metadata\TestCaseProvider.cs" />
     <Compile Include="Metadata\TestMethodModel.cs" />
-    <Compile Include="UI\TestPresenter.cs" />
+    <Compile Include="UI\MethodView.cs" />
+    <Compile Include="UI\Presenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRuntime.cs" />
-    <Compile Include="Metadata\TestTypeModel.cs" />
+    <Compile Include="Metadata\TestClassModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SharpKit.MsTest.UI.xml" />
