@@ -23,5 +23,14 @@ namespace UnitTest
             int result = a - b;
             Assert.AreEqual(-2, result);
         }
+
+        [TestMethod]
+        public void Multiply()
+        {
+            int a = 5;
+            int b = 7;
+            int result = a * b;
+            Assert.AreEqual(35, result);
+        }
     }
 }
