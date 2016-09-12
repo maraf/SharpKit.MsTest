@@ -1,4 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Exugin xmlns="http://schemas.neptuo.com/xsd/neptuo-sharpkit-exugin.xsd">
   <Export Filename="UnitTest.js" FilenameFormat="~/bin/{0}" />
+  <ExternalAttributes>
+    <Type Target="Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute"/>
+    <Type Target="Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute"/>
+    <Type Target="Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryAttribute"/>
+  </ExternalAttributes>
 </Exugin>
