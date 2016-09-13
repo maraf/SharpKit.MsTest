@@ -67,6 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <None Include="Stylesheet\SharpKit.MsTest.scss" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -80,6 +85,12 @@
     <Content Include="Javascript\Generated\SharpKit.MsTest.js" />
     <Content Include="Javascript\Generated\SharpKit.MsTest.UI.js" />
     <Content Include="Javascript\jquery.min.js" />
+    <Content Include="Stylesheet\SharpKit.MsTest.css">
+      <DependentUpon>SharpKit.MsTest.scss</DependentUpon>
+    </Content>
+    <Content Include="Stylesheet\SharpKit.MsTest.min.css">
+      <DependentUpon>SharpKit.MsTest.css</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

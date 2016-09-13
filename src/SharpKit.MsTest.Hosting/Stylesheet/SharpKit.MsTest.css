@@ -1,0 +1,23 @@
+﻿body {
+  font-family: Consolas; }
+
+.mst-group {
+  width: 400px;
+  margin: 0 0 10px 0;
+  border: 1px solid #eeeeee; }
+  .mst-group .mst-header {
+    padding: 2px 4px;
+    background: #eeeeee; }
+  .mst-group .mst-method-container {
+    height: 22px; }
+    .mst-group .mst-method-container .mst-method-status, .mst-group .mst-method-container .mst-method-selector, .mst-group .mst-method-container .mst-method-status, .mst-group .mst-method-container .mst-method-name, .mst-group .mst-method-container .mst-method-time {
+      float: left; }
+    .mst-group .mst-method-container .mst-method-name {
+      width: 350px; }
+      .mst-group .mst-method-container .mst-method-name label {
+        display: block; }
+    .mst-group .mst-method-container .mst-method-name:hover {
+      cursor: pointer; }
+  .mst-group .mst-method-container:hover {
+    background: #eeeeee; }
+

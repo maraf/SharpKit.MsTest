@@ -1,0 +1,42 @@
+﻿$boder-color: #cccccc;
+$header-color: #eeeeee;
+
+body {
+    font-family: Consolas;
+}
+
+.mst-group {
+    width: 400px;
+    margin: 0 0 10px 0;
+	border: 1px solid $header-color;
+    
+    .mst-header {
+        padding: 2px 4px;
+        background: $header-color;
+    }
+
+    .mst-method-container {
+        height: 22px;
+
+        .mst-method-status, .mst-method-selector, .mst-method-status, .mst-method-name, .mst-method-time {
+            float: left;
+        }
+
+        .mst-method-name {
+            width: 350px;
+
+            label {
+                display: block;
+            }
+        }
+
+        .mst-method-name:hover {
+            cursor: pointer;
+        }
+    }
+
+    .mst-method-container:hover {
+        background: $header-color;
+
+    }
+}
