@@ -66,6 +66,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Javascript\Generated\UnitTest.js" />
     <Content Include="packages.config" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
@@ -95,6 +96,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpKit.MsTest.UI\SharpKit.MsTest.UI.csproj">
+      <Project>{44ecd1bf-58fb-473e-bafb-a258938a7f6a}</Project>
+      <Name>SharpKit.MsTest.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -133,7 +140,8 @@
     </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>copy "$(SolutionDir)\artifacts\$(ConfigurationName)\javascript\*.js" "$(ProjectDir)\Javascript\Generated" /y</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

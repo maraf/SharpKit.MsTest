@@ -14,6 +14,119 @@ if (typeof($CreateException)=='undefined')
     }
 }
 
+function $CombineDelegates(del1,del2)
+{
+    if(del1 == null)
+        return del2;
+    if(del2 == null)
+        return del1;
+    var del=$CreateMulticastDelegateFunction();
+    del.delegates = [];
+    if(del1.isMulticastDelegate)
+    {
+        for(var i=0;i < del1.delegates.length;i++)
+            del.delegates.push(del1.delegates[i]);
+    }
+    else
+    {
+        del.delegates.push(del1);
+    }
+    if(del2.isMulticastDelegate)
+    {
+        for(var i=0;i < del2.delegates.length;i++)
+            del.delegates.push(del2.delegates[i]);
+    }
+    else
+    {
+        del.delegates.push(del2);
+    }
+    return del;
+};
+
+function $CreateMulticastDelegateFunction()
+{
+    var del2 = null;
+    
+    var del=function()
+    {
+        var x=undefined;
+        for(var i=0;i < del2.delegates.length;i++)
+        {
+            var del3=del2.delegates[i];
+            x = del3.apply(null,arguments);
+        }
+        return x;
+    };
+    del.isMulticastDelegate = true;
+    del2 = del;   
+    
+    return del;
+};
+
+function $RemoveDelegate(delOriginal,delToRemove)
+{
+    if(delToRemove == null || delOriginal == null)
+        return delOriginal;
+    if(delOriginal.isMulticastDelegate)
+    {
+        if(delToRemove.isMulticastDelegate)
+            throw new Error("Multicast to multicast delegate removal is not implemented yet");
+        var del=$CreateMulticastDelegateFunction();
+        for(var i=0;i < delOriginal.delegates.length;i++)
+        {
+            var del2=delOriginal.delegates[i];
+            if(del2 != delToRemove)
+            {
+                if(del.delegates == null)
+                    del.delegates = [];
+                del.delegates.push(del2);
+            }
+        }
+        if(del.delegates == null)
+            return null;
+        if(del.delegates.length == 1)
+            return del.delegates[0];
+        return del;
+    }
+    else
+    {
+        if(delToRemove.isMulticastDelegate)
+            throw new Error("single to multicast delegate removal is not supported");
+        if(delOriginal == delToRemove)
+            return null;
+        return delOriginal;
+    }
+};
+
+if (typeof($CreateDelegate)=='undefined'){
+    if(typeof($iKey)=='undefined') var $iKey = 0;
+    if(typeof($pKey)=='undefined') var $pKey = String.fromCharCode(1);
+    var $CreateDelegate = function(target, func){
+        if (target == null || func == null) 
+            return func;
+        if(func.target==target && func.func==func)
+            return func;
+        if (target.$delegateCache == null)
+            target.$delegateCache = {};
+        if (func.$key == null)
+            func.$key = $pKey + String(++$iKey);
+        var delegate;
+        if(target.$delegateCache!=null)
+            delegate = target.$delegateCache[func.$key];
+        if (delegate == null){
+            delegate = function(){
+                return func.apply(target, arguments);
+            };
+            delegate.func = func;
+            delegate.target = target;
+            delegate.isDelegate = true;
+            if(target.$delegateCache!=null)
+                target.$delegateCache[func.$key] = delegate;
+        }
+        return delegate;
+    }
+}
+
 
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
@@ -56,58 +169,57 @@ var SharpKit$MsTest$Metadata$TestAssemblyModel = {
     IsAbstract: false
 };
 JsTypes.push(SharpKit$MsTest$Metadata$TestAssemblyModel);
-var SharpKit$MsTest$UI$CategoryView = {
-    fullname: "SharpKit.MsTest.UI.CategoryView",
-    baseTypeName: "System.Object",
-    assemblyName: "SharpKit.MsTest.UI",
-    Kind: "Class",
-    definition: {
-        ctor: function (){
-            System.Object.ctor.call(this);
-        }
-    },
-    ctors: [{
-        name: "ctor",
-        parameters: []
-    }
-    ],
-    IsAbstract: false
-};
-JsTypes.push(SharpKit$MsTest$UI$CategoryView);
-var SharpKit$MsTest$UI$ClassView = {
-    fullname: "SharpKit.MsTest.UI.ClassView",
+var SharpKit$MsTest$UI$ControlView = {
+    fullname: "SharpKit.MsTest.UI.ControlView",
     baseTypeName: "System.Object",
     assemblyName: "SharpKit.MsTest.UI",
     Kind: "Class",
     definition: {
         ctor: function (root){
             this.root = null;
-            this.methods = null;
+            this.RunAll = null;
+            this.RunSelected = null;
             System.Object.ctor.call(this);
             this.root = root;
-            this.methods = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.UI.MethodView.ctor);
         },
-        Render: function (classes){
+        add_RunAll: function (value){
+            this.RunAll = $CombineDelegates(this.RunAll, value);
+        },
+        remove_RunAll: function (value){
+            this.RunAll = $RemoveDelegate(this.RunAll, value);
+        },
+        add_RunSelected: function (value){
+            this.RunSelected = $CombineDelegates(this.RunSelected, value);
+        },
+        remove_RunSelected: function (value){
+            this.RunSelected = $RemoveDelegate(this.RunSelected, value);
+        },
+        RunAllButton$$: "SharpKit.jQuery.jQuery",
+        get_RunAllButton: function (){
+            return this.root.find(".mst-run-all");
+        },
+        RunSelectedButton$$: "SharpKit.jQuery.jQuery",
+        get_RunSelectedButton: function (){
+            return this.root.find(".mst-run-selected");
+        },
+        Render: function (){
             var html = new System.Text.StringBuilder.ctor();
-            var $it1 = classes.GetEnumerator();
-            while ($it1.MoveNext()){
-                var type = $it1.get_Current();
-                html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-group");
-                html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\'>{1}</div>", "mst-header", type.get_Type().get_Name());
-                var $it2 = type.get_Methods().GetEnumerator();
-                while ($it2.MoveNext()){
-                    var method = $it2.get_Current();
-                    var view = new SharpKit.MsTest.UI.MethodView.ctor(method);
-                    view.Render(html);
-                }
-                html.Append$$String("</div>");
-            }
+            html.AppendFormat$$String$$Object("<button class=\'{0}\'>Run selected</button>", "mst-run-selected");
+            html.AppendFormat$$String$$Object("<button class=\'{0}\'>Run all</button>", "mst-run-all");
             this.root.html(html.toString());
-            var $it3 = this.methods.GetEnumerator();
-            while ($it3.MoveNext()){
-                var view = $it3.get_Current();
-                view.Bind(this.root);
-            }
+            this.Bind();
+        },
+        Bind: function (){
+            this.get_RunAllButton().click($CreateDelegate(this, this.OnRunAllClicked));
+            this.get_RunSelectedButton().click($CreateDelegate(this, this.OnRunSelectedClicked));
+        },
+        OnRunAllClicked: function (){
+            if (this.RunAll != null)
+                this.RunAll();
+        },
+        OnRunSelectedClicked: function (){
+            if (this.RunSelected != null)
+                this.RunSelected();
         }
     },
     ctors: [{
@@ -117,14 +229,14 @@ var SharpKit$MsTest$UI$ClassView = {
     ],
     IsAbstract: false
 };
-JsTypes.push(SharpKit$MsTest$UI$ClassView);
-var SharpKit$MsTest$UI$ClassView$CssClass = {
-    fullname: "SharpKit.MsTest.UI.ClassView.CssClass",
+JsTypes.push(SharpKit$MsTest$UI$ControlView);
+var SharpKit$MsTest$UI$ControlView$CssClass = {
+    fullname: "SharpKit.MsTest.UI.ControlView.CssClass",
     baseTypeName: "System.Object",
     staticDefinition: {
         cctor: function (){
-            SharpKit.MsTest.UI.ClassView.CssClass.Group = "mst-group";
-            SharpKit.MsTest.UI.ClassView.CssClass.Header = "mst-header";
+            SharpKit.MsTest.UI.ControlView.CssClass.All = "mst-run-all";
+            SharpKit.MsTest.UI.ControlView.CssClass.Selected = "mst-run-selected";
         }
     },
     assemblyName: "SharpKit.MsTest.UI",
@@ -137,7 +249,98 @@ var SharpKit$MsTest$UI$ClassView$CssClass = {
     ctors: [],
     IsAbstract: true
 };
-JsTypes.push(SharpKit$MsTest$UI$ClassView$CssClass);
+JsTypes.push(SharpKit$MsTest$UI$ControlView$CssClass);
+var SharpKit$MsTest$UI$GroupView = {
+    fullname: "SharpKit.MsTest.UI.GroupView",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (root){
+            this.root = null;
+            this.methods = null;
+            System.Object.ctor.call(this);
+            this.root = root;
+            this.methods = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.UI.MethodView.ctor);
+        },
+        MainSelector$$: "SharpKit.jQuery.jQuery",
+        get_MainSelector: function (){
+            return this.root.find(".mst-group-header").find("input");
+        },
+        Render: function (classes){
+            var html = new System.Text.StringBuilder.ctor();
+            var $it1 = classes.GetEnumerator();
+            while ($it1.MoveNext()){
+                var type = $it1.get_Current();
+                html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-group");
+                html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-group-header");
+                html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-group-status");
+                html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\'><input id=\'{1}\' type=\'checkbox\' /></div>", "mst-group-selector", type.get_Type().get_FullName());
+                html.AppendFormat$$String$$Object$$Object$$Object("<div class=\'{0}\'><label for=\'{1}\'>{2}</label></div>", "mst-group-name", type.get_Type().get_FullName(), type.get_Type().get_Name());
+                html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-group-Time");
+                html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "clear");
+                html.Append$$String("</div>");
+                var $it2 = type.get_Methods().GetEnumerator();
+                while ($it2.MoveNext()){
+                    var method = $it2.get_Current();
+                    var view = new SharpKit.MsTest.UI.MethodView.ctor(method);
+                    view.Render(html);
+                    this.methods.Add(view);
+                }
+                html.Append$$String("</div>");
+            }
+            this.root.html(html.toString());
+            this.Bind(this.root);
+            var $it3 = this.methods.GetEnumerator();
+            while ($it3.MoveNext()){
+                var view = $it3.get_Current();
+                view.Bind(this.root);
+            }
+        },
+        Bind: function (root){
+            root.find(".mst-group-header").find("input").change($CreateDelegate(this, this.OnHeaderChanged));
+        },
+        OnHeaderChanged: function (){
+            var $it4 = this.methods.GetEnumerator();
+            while ($it4.MoveNext()){
+                var view = $it4.get_Current();
+                view.set_IsSelected(this.get_MainSelector().is(":checked"));
+            }
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["SharpKit.jQuery.jQuery"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$UI$GroupView);
+var SharpKit$MsTest$UI$GroupView$CssClass = {
+    fullname: "SharpKit.MsTest.UI.GroupView.CssClass",
+    baseTypeName: "System.Object",
+    staticDefinition: {
+        cctor: function (){
+            SharpKit.MsTest.UI.GroupView.CssClass.Clear = "clear";
+            SharpKit.MsTest.UI.GroupView.CssClass.Group = "mst-group";
+            SharpKit.MsTest.UI.GroupView.CssClass.Header = "mst-group-header";
+            SharpKit.MsTest.UI.GroupView.CssClass.HeaderName = "mst-group-name";
+            SharpKit.MsTest.UI.GroupView.CssClass.HeaderStatus = "mst-group-status";
+            SharpKit.MsTest.UI.GroupView.CssClass.HeaderSelector = "mst-group-selector";
+            SharpKit.MsTest.UI.GroupView.CssClass.HeaderTime = "mst-group-Time";
+        }
+    },
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (){
+            System.Object.ctor.call(this);
+        }
+    },
+    ctors: [],
+    IsAbstract: true
+};
+JsTypes.push(SharpKit$MsTest$UI$GroupView$CssClass);
 var SharpKit$MsTest$UI$MainView = {
     fullname: "SharpKit.MsTest.UI.MainView",
     baseTypeName: "System.Object",
@@ -220,9 +423,9 @@ var SharpKit$MsTest$Metadata$TestCaseProvider = {
         },
         LoadMetadata: function (types){
             var result = new System.Collections.Generic.Dictionary$2.ctor(System.String.ctor, SharpKit.MsTest.Metadata.TestAssemblyModel.ctor);
-            var $it4 = types.GetEnumerator();
-            while ($it4.MoveNext()){
-                var type = $it4.get_Current();
+            var $it5 = types.GetEnumerator();
+            while ($it5.MoveNext()){
+                var type = $it5.get_Current();
                 var assemblyName = type["_JsType"].assemblyName;
                 var assembly;
                 if (!(function (){
@@ -240,11 +443,11 @@ var SharpKit$MsTest$Metadata$TestCaseProvider = {
         },
         LoadClassMetadata: function (assemblyModel, type){
             var model = new SharpKit.MsTest.Metadata.TestClassModel.ctor(type);
-            for (var $i6 = 0,$t6 = type.GetMethods(),$l6 = $t6.length,method = $t6[$i6]; $i6 < $l6; $i6++, method = $t6[$i6]){
+            for (var $i7 = 0,$t7 = type.GetMethods(),$l7 = $t7.length,method = $t7[$i7]; $i7 < $l7; $i7++, method = $t7[$i7]){
                 var isTestMethod = false;
                 var categories = new System.Collections.Generic.List$1.ctor(System.String.ctor);
                 var attributes = method.GetCustomAttributes$$Boolean(true);
-                for (var $i7 = 0,$l7 = attributes.length,attribute = attributes[$i7]; $i7 < $l7; $i7++, attribute = attributes[$i7]){
+                for (var $i8 = 0,$l8 = attributes.length,attribute = attributes[$i8]; $i8 < $l8; $i8++, attribute = attributes[$i8]){
                     var categoryAttribute = As(attribute, Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryBaseAttribute.ctor);
                     if (categoryAttribute != null)
                         categories.AddRange(categoryAttribute.get_TestCategories());
@@ -350,8 +553,8 @@ var SharpKit$MsTest$UI$MethodView = {
     Kind: "Class",
     definition: {
         ctor: function (model){
+            this.root = null;
             this._Model = null;
-            this._IsSelected = false;
             System.Object.ctor.call(this);
             this.set_Model(model);
         },
@@ -362,12 +565,19 @@ var SharpKit$MsTest$UI$MethodView = {
         set_Model: function (value){
             this._Model = value;
         },
+        Selector$$: "SharpKit.jQuery.jQuery",
+        get_Selector: function (){
+            return this.root.find("[data-method-id=\'" + this.get_Model().get_UniqueId() + "\']").find("input");
+        },
         IsSelected$$: "System.Boolean",
         get_IsSelected: function (){
-            return this._IsSelected;
+            return this.get_Selector().attr("checked") == "checked";
         },
         set_IsSelected: function (value){
-            this._IsSelected = value;
+            if (value)
+                this.get_Selector().attr("checked", "checked");
+            else
+                this.get_Selector().removeAttr("checked");
         },
         Render: function (html){
             html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\' data-method-id=\'{1}\'>", "mst-method-container", this.get_Model().get_UniqueId());
@@ -375,9 +585,11 @@ var SharpKit$MsTest$UI$MethodView = {
             html.AppendFormat$$String$$Object$$Object("<div class=\'{0}\'><input id=\'{1}\' type=\'checkbox\' /></div>", "mst-method-selector", this.get_Model().get_UniqueId());
             html.AppendFormat$$String$$Object$$Object$$Object("<div class=\'{0}\'><label for=\'{1}\'>{2}</label></div>", "mst-method-name", this.get_Model().get_UniqueId(), this.get_Model().get_Method().get_Name());
             html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-method-time");
+            html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "clear");
             html.Append$$String("</div>");
         },
         Bind: function (root){
+            this.root = root;
         }
     },
     ctors: [{
@@ -393,6 +605,7 @@ var SharpKit$MsTest$UI$MethodView$CssClass = {
     baseTypeName: "System.Object",
     staticDefinition: {
         cctor: function (){
+            SharpKit.MsTest.UI.MethodView.CssClass.Clear = "clear";
             SharpKit.MsTest.UI.MethodView.CssClass.Container = "mst-method-container";
             SharpKit.MsTest.UI.MethodView.CssClass.Selector = "mst-method-selector";
             SharpKit.MsTest.UI.MethodView.CssClass.Name = "mst-method-name";
@@ -420,21 +633,33 @@ var SharpKit$MsTest$UI$Presenter = {
         ctor: function (){
             this.testClassProvider = new SharpKit.MsTest.Metadata.TestCaseProvider.ctor();
             this.mainView = null;
+            this.controls = null;
+            this.groupView = null;
             System.Object.ctor.call(this);
         },
         Render: function (root){
             var assemblies = this.testClassProvider.Load();
             this.mainView = new SharpKit.MsTest.UI.MainView.ctor(root);
             this.mainView.Render();
+            this.controls = new SharpKit.MsTest.UI.ControlView.ctor(this.mainView.GetControls());
+            this.controls.add_RunAll($CreateDelegate(this, this.OnRunAll));
+            this.controls.add_RunSelected($CreateDelegate(this, this.OnRunSelected));
+            this.controls.Render();
             var classes = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.Metadata.TestClassModel.ctor);
-            var $it7 = assemblies.GetEnumerator();
-            while ($it7.MoveNext()){
-                var assembly = $it7.get_Current();
+            var $it8 = assemblies.GetEnumerator();
+            while ($it8.MoveNext()){
+                var assembly = $it8.get_Current();
                 classes.AddRange(assembly.get_Classes());
             }
             var content = this.mainView.GetContent();
-            var view = new SharpKit.MsTest.UI.ClassView.ctor(content);
-            view.Render(classes);
+            this.groupView = new SharpKit.MsTest.UI.GroupView.ctor(content);
+            this.groupView.Render(classes);
+        },
+        OnRunAll: function (){
+            throw $CreateException(new System.NotImplementedException.ctor(), new Error());
+        },
+        OnRunSelected: function (){
+            throw $CreateException(new System.NotImplementedException.ctor(), new Error());
         }
     },
     ctors: [{

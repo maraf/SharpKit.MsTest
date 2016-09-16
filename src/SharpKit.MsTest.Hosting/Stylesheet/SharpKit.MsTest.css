@@ -1,13 +1,21 @@
 ﻿body {
   font-family: Consolas; }
 
+.clear {
+  clear: both; }
+
+.mst-controls button {
+  margin: 0 10px 5px 0; }
+
 .mst-group {
   width: 400px;
   margin: 0 0 10px 0;
   border: 1px solid #eeeeee; }
-  .mst-group .mst-header {
-    padding: 2px 4px;
+  .mst-group .mst-group-header {
+    padding: 2px 0px;
     background: #eeeeee; }
+    .mst-group .mst-group-header .mst-group-status, .mst-group .mst-group-header .mst-group-selector, .mst-group .mst-group-header .mst-group-status, .mst-group .mst-group-header .mst-group-name, .mst-group .mst-group-header .mst-group-time {
+      float: left; }
   .mst-group .mst-method-container {
     height: 22px; }
     .mst-group .mst-method-container .mst-method-status, .mst-group .mst-method-container .mst-method-selector, .mst-group .mst-method-container .mst-method-status, .mst-group .mst-method-container .mst-method-name, .mst-group .mst-method-container .mst-method-time {

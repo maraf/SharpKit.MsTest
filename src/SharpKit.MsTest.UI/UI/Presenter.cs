@@ -13,6 +13,8 @@ namespace SharpKit.MsTest.UI
     {
         private readonly TestCaseProvider testClassProvider = new TestCaseProvider();
         private MainView mainView;
+        private ControlView controls;
+        private GroupView groupView;
 
         public void Render(jQuery.jQuery root)
         {
@@ -21,13 +23,28 @@ namespace SharpKit.MsTest.UI
             mainView = new MainView(root);
             mainView.Render();
 
+            controls = new ControlView(mainView.GetControls());
+            controls.RunAll += OnRunAll;
+            controls.RunSelected += OnRunSelected;
+            controls.Render();
+
             List<TestClassModel> classes = new List<TestClassModel>();
             foreach (TestAssemblyModel assembly in assemblies)
                 classes.AddRange(assembly.Classes);
 
             jQuery.jQuery content = mainView.GetContent();
-            ClassView view = new ClassView(content);
-            view.Render(classes);
+            groupView = new GroupView(content);
+            groupView.Render(classes);
+        }
+
+        private void OnRunAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnRunSelected()
+        {
+            throw new NotImplementedException();
         }
     }
 }

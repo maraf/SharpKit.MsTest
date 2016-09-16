@@ -5,14 +5,26 @@ body {
     font-family: Consolas;
 }
 
+.clear {
+    clear: both;
+}
+
+.mst-controls button {
+    margin: 0 10px 5px 0;
+}
+
 .mst-group {
     width: 400px;
     margin: 0 0 10px 0;
 	border: 1px solid $header-color;
     
-    .mst-header {
-        padding: 2px 4px;
+    .mst-group-header {
+        padding: 2px 0px;
         background: $header-color;
+        
+        .mst-group-status, .mst-group-selector, .mst-group-status, .mst-group-name, .mst-group-time {
+            float: left;
+        }
     }
 
     .mst-method-container {
