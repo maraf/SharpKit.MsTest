@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Metadata\TestAssemblyModel.cs" />
+    <Compile Include="TestExecutor.cs" />
     <Compile Include="UI\ControlView.cs" />
     <Compile Include="UI\GroupView.cs" />
     <Compile Include="UI\MainView.cs" />

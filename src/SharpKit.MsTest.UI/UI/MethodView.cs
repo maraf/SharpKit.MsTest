@@ -21,6 +21,7 @@ namespace SharpKit.MsTest.UI
 
         private jQuery.jQuery root;
 
+        public TestClassModel ClassModel { get; private set; }
         public TestMethodModel Model { get; private set; }
 
         public jQuery.jQuery Selector
@@ -40,8 +41,9 @@ namespace SharpKit.MsTest.UI
             }
         }
 
-        public MethodView(TestMethodModel model)
+        public MethodView(TestClassModel classModel, TestMethodModel model)
         {
+            ClassModel = classModel;
             Model = model;
         }
 

@@ -12,6 +12,7 @@ namespace SharpKit.MsTest.UI
     public class Presenter
     {
         private readonly TestCaseProvider testClassProvider = new TestCaseProvider();
+        private readonly List<TestClassModel> classes = new List<TestClassModel>();
         private MainView mainView;
         private ControlView controls;
         private GroupView groupView;
@@ -28,7 +29,6 @@ namespace SharpKit.MsTest.UI
             controls.RunSelected += OnRunSelected;
             controls.Render();
 
-            List<TestClassModel> classes = new List<TestClassModel>();
             foreach (TestAssemblyModel assembly in assemblies)
                 classes.AddRange(assembly.Classes);
 
@@ -39,12 +39,18 @@ namespace SharpKit.MsTest.UI
 
         private void OnRunAll()
         {
-            throw new NotImplementedException();
+            RunTest(classes);
         }
 
         private void OnRunSelected()
         {
-            throw new NotImplementedException();
+            IEnumerable<TestClassModel> selected = groupView.GetSelected();
+            RunTest(selected);
+        }
+
+        private void RunTest(IEnumerable<TestClassModel> classes)
+        {
+            TestExecutor executor;
         }
     }
 }

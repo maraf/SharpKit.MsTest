@@ -55,7 +55,7 @@ namespace SharpKit.MsTest.UI
 
                 foreach (TestMethodModel method in type.Methods)
                 {
-                    MethodView view = new MethodView(method);
+                    MethodView view = new MethodView(type, method);
                     view.Render(html);
                     methods.Add(view);
                 }
@@ -81,6 +81,24 @@ namespace SharpKit.MsTest.UI
         {
             foreach (MethodView view in methods)
                 view.IsSelected = MainSelector.@is(":checked");
+        }
+
+        public IEnumerable<TestClassModel> GetSelected()
+        {
+            Dictionary<string, TestClassModel> result = new Dictionary<string, TestClassModel>();
+            foreach (MethodView view in methods)
+            {
+                if (view.IsSelected)
+                {
+                    TestClassModel classModel;
+                    if (!result.TryGetValue(view.ClassModel.Type.FullName, out classModel))
+                        result[view.ClassModel.Type.FullName] = classModel = new TestClassModel(view.ClassModel.Type);
+
+                    classModel.AddMethod(view.Model);
+                }
+            }
+
+            return result.Values;
         }
     }
 }
