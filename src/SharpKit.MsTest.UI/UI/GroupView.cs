@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpKit.jQuery;
+using SharpKit.JavaScript.Compilation;
 
 namespace SharpKit.MsTest.UI
 {
@@ -83,16 +84,24 @@ namespace SharpKit.MsTest.UI
                 view.IsSelected = MainSelector.@is(":checked");
         }
 
-        public IEnumerable<TestClassModel> GetSelected()
+        public IEnumerable<TestAssemblyModel> GetSelected()
         {
-            Dictionary<string, TestClassModel> result = new Dictionary<string, TestClassModel>();
+            Dictionary<string, TestAssemblyModel> result = new Dictionary<string, TestAssemblyModel>();
             foreach (MethodView view in methods)
             {
                 if (view.IsSelected)
                 {
-                    TestClassModel classModel;
-                    if (!result.TryGetValue(view.ClassModel.Type.FullName, out classModel))
-                        result[view.ClassModel.Type.FullName] = classModel = new TestClassModel(view.ClassModel.Type);
+                    string assemblyName = view.ClassModel.Type.As<JsObject>()["_JsType"].As<JsType>().assemblyName;
+                    TestAssemblyModel assemblyModel;
+                    if (!result.TryGetValue(view.ClassModel.Type.FullName, out assemblyModel))
+                        result[view.ClassModel.Type.FullName] = assemblyModel = new TestAssemblyModel(assemblyName);
+
+                    TestClassModel classModel = assemblyModel.Classes.FirstOrDefault(c => c.Type.FullName == view.ClassModel.Type.FullName);
+                    if (classModel == null)
+                    {
+                        classModel = new TestClassModel(view.ClassModel.Type);
+                        assemblyModel.AddClass(classModel);
+                    }
 
                     classModel.AddMethod(view.Model);
                 }
