@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace SharpKit.MsTest
 {
-    public class TestExecutor
+    public class Log
     {
-        private readonly Log log;
+        public event Action<string> InfoAdded;
 
-        public TestExecutor(Log log)
+        public void Info(string message)
         {
-
+            if (InfoAdded != null)
+                InfoAdded(message);
         }
     }
 }

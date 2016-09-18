@@ -12,9 +12,12 @@ namespace SharpKit.MsTest.UI
         [JsType(Export = false)]
         public static class CssClass
         {
+            public const string Clear = "clear";
+
             public const string Container = "mst-container";
             public const string Controls = "mst-controls";
             public const string Content = "mst-content";
+            public const string Log = "mst-log";
         }
 
         private readonly jQuery.jQuery root;
@@ -31,6 +34,8 @@ namespace SharpKit.MsTest.UI
 
             html.AppendFormat("<div class='{0}'></div>", CssClass.Controls);
             html.AppendFormat("<div class='{0}'></div>", CssClass.Content);
+            html.AppendFormat("<div class='{0}'></div>", CssClass.Log);
+            html.AppendFormat("<div class='{0}'></div>", CssClass.Clear);
 
             html.Append("</div>");
             root.html(html.ToString());
@@ -44,6 +49,11 @@ namespace SharpKit.MsTest.UI
         public jQuery.jQuery GetContent()
         {
             return root.find("." + CssClass.Content);
+        }
+
+        public jQuery.jQuery GetLog()
+        {
+            return root.find("." + CssClass.Log);
         }
     }
 }

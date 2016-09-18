@@ -50,7 +50,16 @@ namespace SharpKit.MsTest.UI
 
         private void RunTest(IEnumerable<TestClassModel> classes)
         {
-            TestExecutor executor;
+            Log log = new Log();
+            log.InfoAdded += OnLogInfoAdded;
+
+            TestExecutor executor = new TestExecutor(log);
+            // TODO: Run classes (and assemblies, because each assembly should have its clear/initialize methods).
+        }
+
+        private void OnLogInfoAdded(string message)
+        {
+            mainView.GetLog().append(message + "<br />");
         }
     }
 }
