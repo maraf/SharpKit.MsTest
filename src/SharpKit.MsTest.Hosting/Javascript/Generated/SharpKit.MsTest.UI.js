@@ -272,10 +272,10 @@ var SharpKit$MsTest$TestExecutor = {
         RunMethod: function (method, instance){
             this.log.Info$$String$$Object("Starting method \'{0}\'.", method.get_Method().get_Name());
             try{
-                method.get_Method().Invoke$$Object$$Object$Array(instance, new Array(0));
+                method.get_Method().Invoke(instance, new Array(0));
             }
             catch(e){
-                this.log.Info$$String$$Object$$Object("Exception \'{0}\'. \r\n{1}", e.GetType().get_FullName(), e.toString());
+                this.log.Info$$String$$Object("Exception: {0}", e.toString());
             }
             this.log.Info$$String$$Object("Ending method \'{0}\'.", method.get_Method().get_Name());
         }
@@ -288,6 +288,15 @@ var SharpKit$MsTest$TestExecutor = {
     IsAbstract: false
 };
 JsTypes.push(SharpKit$MsTest$TestExecutor);
+var SharpKit$MsTest$TestExecutor$IMethodInfo = {
+    fullname: "SharpKit.MsTest.TestExecutor.IMethodInfo",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Interface",
+    ctors: [],
+    IsAbstract: true
+};
+JsTypes.push(SharpKit$MsTest$TestExecutor$IMethodInfo);
 var SharpKit$MsTest$UI$ControlView = {
     fullname: "SharpKit.MsTest.UI.ControlView",
     baseTypeName: "System.Object",

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpKit.MsTest.Metadata;
+using SharpKit.JavaScript;
 
 namespace SharpKit.MsTest
 {
@@ -68,14 +69,19 @@ namespace SharpKit.MsTest
 
             try
             {
-                method.Method.Invoke(instance, new object[0]);
+                method.Method.As<IMethodInfo>().Invoke(instance, new object[0]);
             }
             catch (Exception e)
             {
-                log.Info("Exception '{0}'. \r\n{1}", e.GetType().FullName, e.ToString());
+                log.Info("Exception: {0}", e.ToString());
             }
 
             log.Info("Ending method '{0}'.", method.Method.Name);
+        }
+
+        private interface IMethodInfo
+        {
+            object Invoke(object instance, object[] parameters);
         }
     }
 }
