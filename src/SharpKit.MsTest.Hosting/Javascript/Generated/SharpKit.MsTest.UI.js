@@ -218,6 +218,75 @@ var SharpKit$MsTest$Metadata$TestAssemblyModel = {
     IsAbstract: false
 };
 JsTypes.push(SharpKit$MsTest$Metadata$TestAssemblyModel);
+var SharpKit$MsTest$Results$TestMethodResultModel = {
+    fullname: "SharpKit.MsTest.Results.TestMethodResultModel",
+    baseTypeName: "System.Object",
+    assemblyName: "SharpKit.MsTest.UI",
+    Kind: "Class",
+    definition: {
+        ctor: function (methodUniqueId, elapsedMilliseconds, status, message){
+            this._MethodUniqueId = null;
+            this._ElapsedMilliseconds = 0;
+            this._Status = SharpKit.MsTest.Results.TestMethodResultStatus.Success;
+            this._Message = null;
+            System.Object.ctor.call(this);
+            this.set_MethodUniqueId(methodUniqueId);
+            this.set_ElapsedMilliseconds(elapsedMilliseconds);
+            this.set_Status(status);
+            this.set_Message(message);
+        },
+        MethodUniqueId$$: "System.String",
+        get_MethodUniqueId: function (){
+            return this._MethodUniqueId;
+        },
+        set_MethodUniqueId: function (value){
+            this._MethodUniqueId = value;
+        },
+        ElapsedMilliseconds$$: "System.Int32",
+        get_ElapsedMilliseconds: function (){
+            return this._ElapsedMilliseconds;
+        },
+        set_ElapsedMilliseconds: function (value){
+            this._ElapsedMilliseconds = value;
+        },
+        Status$$: "SharpKit.MsTest.Results.TestMethodResultStatus",
+        get_Status: function (){
+            return this._Status;
+        },
+        set_Status: function (value){
+            this._Status = value;
+        },
+        Message$$: "System.String",
+        get_Message: function (){
+            return this._Message;
+        },
+        set_Message: function (value){
+            this._Message = value;
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["System.String", "System.Int32", "SharpKit.MsTest.Results.TestMethodResultStatus", "System.String"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$Results$TestMethodResultModel);
+var SharpKit$MsTest$Results$TestMethodResultStatus = {
+    fullname: "SharpKit.MsTest.Results.TestMethodResultStatus",
+    staticDefinition: {
+        Success: 0,
+        Failed: 1
+    },
+    Kind: "Enum",
+    ctors: [{
+        name: "ctor",
+        parameters: []
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(SharpKit$MsTest$Results$TestMethodResultStatus);
 var SharpKit$MsTest$TestExecutor = {
     fullname: "SharpKit.MsTest.TestExecutor",
     baseTypeName: "System.Object",
@@ -272,18 +341,24 @@ var SharpKit$MsTest$TestExecutor = {
         RunMethod: function (method, instance){
             this.log.Info$$String$$Object("Starting method \'{0}\'.", method.get_Method().get_Name());
             var start = this.GetCurrentTimestamp();
+            var status = SharpKit.MsTest.Results.TestMethodResultStatus.Success;
+            var message = null;
+            var elapsedMilliseconds = 0;
             try{
                 method.get_Method().Invoke(instance, new Array(0));
             }
             catch(e){
                 this.log.Info$$String$$Object("Exception: {0}", e.toString());
+                status = SharpKit.MsTest.Results.TestMethodResultStatus.Failed;
+                message = e.toString();
             }
             finally{
                 var end = this.GetCurrentTimestamp();
-                var tooked = end - start;
-                this.log.Info$$String$$Object$$Object("Successful method \'{0}\', tooked \'{1}ms\'.", method.get_Method().get_Name(), tooked);
+                elapsedMilliseconds = end - start;
+                this.log.Info$$String$$Object$$Object("Successful method \'{0}\', tooked \'{1}ms\'.", method.get_Method().get_Name(), elapsedMilliseconds);
+                this.log.Info$$String$$Object("Ending method \'{0}\'.", method.get_Method().get_Name());
             }
-            this.log.Info$$String$$Object("Ending method \'{0}\'.", method.get_Method().get_Name());
+            return new SharpKit.MsTest.Results.TestMethodResultModel.ctor(method.get_UniqueId(), elapsedMilliseconds, status, message);
         },
         GetCurrentTimestamp: function (){
             return +new Date();
@@ -751,6 +826,10 @@ var SharpKit$MsTest$UI$MethodView = {
         get_Selector: function (){
             return this.root.find("[data-method-id=\'" + this.get_Model().get_UniqueId() + "\']").find("input");
         },
+        Time$$: "SharpKit.jQuery.jQuery",
+        get_Time: function (){
+            return this.root.find(".mst-method-time");
+        },
         IsSelected$$: "System.Boolean",
         get_IsSelected: function (){
             return this.get_Selector().attr("checked") == "checked";
@@ -772,6 +851,9 @@ var SharpKit$MsTest$UI$MethodView = {
         },
         Bind: function (root){
             this.root = root;
+        },
+        UpdateResult: function (model){
+            this.get_Time().html(System.String.Format$$String$$Object("{0}ms", model.get_ElapsedMilliseconds()));
         }
     },
     ctors: [{

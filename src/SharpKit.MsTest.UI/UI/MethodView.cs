@@ -1,4 +1,5 @@
 ﻿using SharpKit.MsTest.Metadata;
+using SharpKit.MsTest.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,11 @@ namespace SharpKit.MsTest.UI
         public jQuery.jQuery Selector
         {
             get { return root.find("[data-method-id='" + Model.UniqueId + "']").find("input"); }
+        }
+
+        public jQuery.jQuery Time
+        {
+            get { return root.find("." + CssClass.Time); }
         }
 
         public bool IsSelected
@@ -61,6 +67,12 @@ namespace SharpKit.MsTest.UI
         public void Bind(jQuery.jQuery root)
         {
             this.root = root;
+        }
+
+        public void UpdateResult(TestMethodResultModel model)
+        {
+            Time.html(String.Format("{0}ms", model.ElapsedMilliseconds));
+            // TODO: Update status and message...
         }
     }
 }

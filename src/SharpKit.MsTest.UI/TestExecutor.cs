@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpKit.MsTest.Metadata;
 using SharpKit.JavaScript;
+using SharpKit.MsTest.Results;
 
 namespace SharpKit.MsTest
 {
@@ -63,11 +64,14 @@ namespace SharpKit.MsTest
         private void CleanType(TestClassModel type, object instance)
         { }
 
-        private void RunMethod(TestMethodModel method, object instance)
+        private TestMethodResultModel RunMethod(TestMethodModel method, object instance)
         {
             log.Info("Starting method '{0}'.", method.Method.Name);
             int start = GetCurrentTimestamp();
 
+            TestMethodResultStatus status = TestMethodResultStatus.Success;
+            string message = null;
+            int elapsedMilliseconds = 0;
             try
             {
                 method.Method.As<IMethodInfo>().Invoke(instance, new object[0]);
@@ -75,15 +79,18 @@ namespace SharpKit.MsTest
             catch (Exception e)
             {
                 log.Info("Exception: {0}", e.ToString());
+                status = TestMethodResultStatus.Failed;
+                message = e.ToString();
             }
             finally
             {
                 int end = GetCurrentTimestamp();
-                int tooked = end - start;
-                log.Info("Successful method '{0}', tooked '{1}ms'.", method.Method.Name, tooked);
+                elapsedMilliseconds = end - start;
+                log.Info("Successful method '{0}', tooked '{1}ms'.", method.Method.Name, elapsedMilliseconds);
+                log.Info("Ending method '{0}'.", method.Method.Name);
             }
 
-            log.Info("Ending method '{0}'.", method.Method.Name);
+            return new TestMethodResultModel(method.UniqueId, elapsedMilliseconds, status, message);
         }
 
         private interface IMethodInfo

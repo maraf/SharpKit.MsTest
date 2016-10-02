@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Log.cs" />
     <Compile Include="Metadata\TestAssemblyModel.cs" />
+    <Compile Include="Results\TestMethodResultModel.cs" />
+    <Compile Include="Results\TestMethodResultStatus.cs" />
     <Compile Include="TestExecutor.cs" />
     <Compile Include="UI\ControlView.cs" />
     <Compile Include="UI\GroupView.cs" />
