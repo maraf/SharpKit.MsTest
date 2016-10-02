@@ -55,6 +55,7 @@ namespace SharpKit.MsTest.UI
             log.InfoAdded += OnLogInfoAdded;
 
             TestExecutor executor = new TestExecutor(log);
+            executor.Run(assemblies);
             // TODO: Run classes (and assemblies, because each assembly should have its clear/initialize methods).
         }
 

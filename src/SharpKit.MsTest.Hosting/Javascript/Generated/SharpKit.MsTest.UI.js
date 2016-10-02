@@ -160,9 +160,15 @@ var SharpKit$MsTest$Log = {
         remove_InfoAdded: function (value){
             this.InfoAdded = $RemoveDelegate(this.InfoAdded, value);
         },
-        Info: function (message){
+        Info$$String: function (message){
             if (this.InfoAdded != null)
                 this.InfoAdded(message);
+        },
+        Info$$String$$Object: function (format, parameter1){
+            this.Info$$String(System.String.Format$$String$$Object(format, parameter1));
+        },
+        Info$$String$$Object$$Object: function (format, parameter1, parameter2){
+            this.Info$$String(System.String.Format$$String$$Object$$Object(format, parameter1, parameter2));
         }
     },
     ctors: [{
@@ -221,6 +227,57 @@ var SharpKit$MsTest$TestExecutor = {
         ctor: function (log){
             this.log = null;
             System.Object.ctor.call(this);
+            this.log = log;
+        },
+        Run: function (assemblies){
+            var $it1 = assemblies.GetEnumerator();
+            while ($it1.MoveNext()){
+                var assembly = $it1.get_Current();
+                this.RunAssembly(assembly);
+            }
+        },
+        RunAssembly: function (assembly){
+            this.log.Info$$String$$Object("Starting assembly \'{0}\'.", assembly.get_Name());
+            this.InitAssembly(assembly);
+            var $it2 = assembly.get_Classes().GetEnumerator();
+            while ($it2.MoveNext()){
+                var type = $it2.get_Current();
+                this.RunClass(type);
+            }
+            this.log.Info$$String$$Object("Cleaning assembly \'{0}\'.", assembly.get_Name());
+            this.CleanAssembly(assembly);
+            this.log.Info$$String$$Object("Ending assembly \'{0}\'.", assembly.get_Name());
+        },
+        InitAssembly: function (assembly){
+        },
+        CleanAssembly: function (assembly){
+        },
+        RunClass: function (type){
+            this.log.Info$$String$$Object("Starting type \'{0}\'.", type.get_Type().get_Name());
+            var instance = this.InitType(type);
+            var $it3 = type.get_Methods().GetEnumerator();
+            while ($it3.MoveNext()){
+                var method = $it3.get_Current();
+                this.RunMethod(method, instance);
+            }
+            this.log.Info$$String$$Object("Cleaning type \'{0}\'.", type.get_Type().get_Name());
+            this.CleanType(type, instance);
+            this.log.Info$$String$$Object("Ending type \'{0}\'.", type.get_Type().get_Name());
+        },
+        InitType: function (type){
+            return System.Activator.CreateInstance$$Type(type.get_Type());
+        },
+        CleanType: function (type, instance){
+        },
+        RunMethod: function (method, instance){
+            this.log.Info$$String$$Object("Starting method \'{0}\'.", method.get_Method().get_Name());
+            try{
+                method.get_Method().Invoke$$Object$$Object$Array(instance, new Array(0));
+            }
+            catch(e){
+                this.log.Info$$String$$Object$$Object("Exception \'{0}\'. \r\n{1}", e.GetType().get_FullName(), e.toString());
+            }
+            this.log.Info$$String$$Object("Ending method \'{0}\'.", method.get_Method().get_Name());
         }
     },
     ctors: [{
@@ -331,9 +388,9 @@ var SharpKit$MsTest$UI$GroupView = {
         },
         Render: function (classes){
             var html = new System.Text.StringBuilder.ctor();
-            var $it1 = classes.GetEnumerator();
-            while ($it1.MoveNext()){
-                var type = $it1.get_Current();
+            var $it4 = classes.GetEnumerator();
+            while ($it4.MoveNext()){
+                var type = $it4.get_Current();
                 html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-group");
                 html.AppendFormat$$String$$Object("<div class=\'{0}\'>", "mst-group-header");
                 html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-group-status");
@@ -342,9 +399,9 @@ var SharpKit$MsTest$UI$GroupView = {
                 html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "mst-group-Time");
                 html.AppendFormat$$String$$Object("<div class=\'{0}\'></div>", "clear");
                 html.Append$$String("</div>");
-                var $it2 = type.get_Methods().GetEnumerator();
-                while ($it2.MoveNext()){
-                    var method = $it2.get_Current();
+                var $it5 = type.get_Methods().GetEnumerator();
+                while ($it5.MoveNext()){
+                    var method = $it5.get_Current();
                     var view = new SharpKit.MsTest.UI.MethodView.ctor(type, method);
                     view.Render(html);
                     this.methods.Add(view);
@@ -353,9 +410,9 @@ var SharpKit$MsTest$UI$GroupView = {
             }
             this.root.html(html.toString());
             this.Bind(this.root);
-            var $it3 = this.methods.GetEnumerator();
-            while ($it3.MoveNext()){
-                var view = $it3.get_Current();
+            var $it6 = this.methods.GetEnumerator();
+            while ($it6.MoveNext()){
+                var view = $it6.get_Current();
                 view.Bind(this.root);
             }
         },
@@ -363,17 +420,17 @@ var SharpKit$MsTest$UI$GroupView = {
             root.find(".mst-group-header").find("input").change($CreateDelegate(this, this.OnHeaderChanged));
         },
         OnHeaderChanged: function (){
-            var $it4 = this.methods.GetEnumerator();
-            while ($it4.MoveNext()){
-                var view = $it4.get_Current();
+            var $it7 = this.methods.GetEnumerator();
+            while ($it7.MoveNext()){
+                var view = $it7.get_Current();
                 view.set_IsSelected(this.get_MainSelector().is(":checked"));
             }
         },
         GetSelected: function (){
             var result = new System.Collections.Generic.Dictionary$2.ctor(System.String.ctor, SharpKit.MsTest.Metadata.TestAssemblyModel.ctor);
-            var $it5 = this.methods.GetEnumerator();
-            while ($it5.MoveNext()){
-                var view = $it5.get_Current();
+            var $it8 = this.methods.GetEnumerator();
+            while ($it8.MoveNext()){
+                var view = $it8.get_Current();
                 if (view.get_IsSelected()){
                     var assemblyName = view.get_ClassModel().get_Type()["_JsType"].assemblyName;
                     var assemblyModel;
@@ -521,9 +578,9 @@ var SharpKit$MsTest$Metadata$TestCaseProvider = {
         },
         LoadMetadata: function (types){
             var result = new System.Collections.Generic.Dictionary$2.ctor(System.String.ctor, SharpKit.MsTest.Metadata.TestAssemblyModel.ctor);
-            var $it6 = types.GetEnumerator();
-            while ($it6.MoveNext()){
-                var type = $it6.get_Current();
+            var $it9 = types.GetEnumerator();
+            while ($it9.MoveNext()){
+                var type = $it9.get_Current();
                 var assemblyName = type["_JsType"].assemblyName;
                 var assembly;
                 if (!(function (){
@@ -541,11 +598,11 @@ var SharpKit$MsTest$Metadata$TestCaseProvider = {
         },
         LoadClassMetadata: function (assemblyModel, type){
             var model = new SharpKit.MsTest.Metadata.TestClassModel.ctor(type);
-            for (var $i8 = 0,$t8 = type.GetMethods(),$l8 = $t8.length,method = $t8[$i8]; $i8 < $l8; $i8++, method = $t8[$i8]){
+            for (var $i11 = 0,$t11 = type.GetMethods(),$l11 = $t11.length,method = $t11[$i11]; $i11 < $l11; $i11++, method = $t11[$i11]){
                 var isTestMethod = false;
                 var categories = new System.Collections.Generic.List$1.ctor(System.String.ctor);
                 var attributes = method.GetCustomAttributes$$Boolean(true);
-                for (var $i9 = 0,$l9 = attributes.length,attribute = attributes[$i9]; $i9 < $l9; $i9++, attribute = attributes[$i9]){
+                for (var $i12 = 0,$l12 = attributes.length,attribute = attributes[$i12]; $i12 < $l12; $i12++, attribute = attributes[$i12]){
                     var categoryAttribute = As(attribute, Microsoft.VisualStudio.TestTools.UnitTesting.TestCategoryBaseAttribute.ctor);
                     if (categoryAttribute != null)
                         categories.AddRange(categoryAttribute.get_TestCategories());
@@ -754,9 +811,9 @@ var SharpKit$MsTest$UI$Presenter = {
             this.controls.add_RunSelected($CreateDelegate(this, this.OnRunSelected));
             this.controls.Render();
             var classes = new System.Collections.Generic.List$1.ctor(SharpKit.MsTest.Metadata.TestClassModel.ctor);
-            var $it9 = this.assemblies.GetEnumerator();
-            while ($it9.MoveNext()){
-                var assembly = $it9.get_Current();
+            var $it12 = this.assemblies.GetEnumerator();
+            while ($it12.MoveNext()){
+                var assembly = $it12.get_Current();
                 classes.AddRange(assembly.get_Classes());
             }
             var content = this.mainView.GetContent();
@@ -774,6 +831,7 @@ var SharpKit$MsTest$UI$Presenter = {
             var log = new SharpKit.MsTest.Log.ctor();
             log.add_InfoAdded($CreateDelegate(this, this.OnLogInfoAdded));
             var executor = new SharpKit.MsTest.TestExecutor.ctor(log);
+            executor.Run(assemblies);
         },
         OnLogInfoAdded: function (message){
             this.mainView.GetLog().append(message + "<br />");

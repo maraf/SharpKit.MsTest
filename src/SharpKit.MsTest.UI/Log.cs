@@ -15,5 +15,15 @@ namespace SharpKit.MsTest
             if (InfoAdded != null)
                 InfoAdded(message);
         }
+
+        public void Info(string format, object parameter1)
+        {
+            Info(String.Format(format, parameter1));
+        }
+
+        public void Info(string format, object parameter1, object parameter2)
+        {
+            Info(String.Format(format, parameter1, parameter2));
+        }
     }
 }
