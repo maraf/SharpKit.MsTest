@@ -66,6 +66,7 @@ namespace SharpKit.MsTest
         private void RunMethod(TestMethodModel method, object instance)
         {
             log.Info("Starting method '{0}'.", method.Method.Name);
+            int start = GetCurrentTimestamp();
 
             try
             {
@@ -75,6 +76,12 @@ namespace SharpKit.MsTest
             {
                 log.Info("Exception: {0}", e.ToString());
             }
+            finally
+            {
+                int end = GetCurrentTimestamp();
+                int tooked = end - start;
+                log.Info("Successful method '{0}', tooked '{1}ms'.", method.Method.Name, tooked);
+            }
 
             log.Info("Ending method '{0}'.", method.Method.Name);
         }
@@ -82,6 +89,12 @@ namespace SharpKit.MsTest
         private interface IMethodInfo
         {
             object Invoke(object instance, object[] parameters);
+        }
+
+        [JsMethod(Code = "return +new Date();")]
+        private int GetCurrentTimestamp()
+        {
+            return 0;
         }
     }
 }

@@ -271,13 +271,22 @@ var SharpKit$MsTest$TestExecutor = {
         },
         RunMethod: function (method, instance){
             this.log.Info$$String$$Object("Starting method \'{0}\'.", method.get_Method().get_Name());
+            var start = this.GetCurrentTimestamp();
             try{
                 method.get_Method().Invoke(instance, new Array(0));
             }
             catch(e){
                 this.log.Info$$String$$Object("Exception: {0}", e.toString());
             }
+            finally{
+                var end = this.GetCurrentTimestamp();
+                var tooked = end - start;
+                this.log.Info$$String$$Object$$Object("Successful method \'{0}\', tooked \'{1}ms\'.", method.get_Method().get_Name(), tooked);
+            }
             this.log.Info$$String$$Object("Ending method \'{0}\'.", method.get_Method().get_Name());
+        },
+        GetCurrentTimestamp: function (){
+            return +new Date();
         }
     },
     ctors: [{
