@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpKit.jQuery;
-using SharpKit.JavaScript.Compilation;
 
 namespace SharpKit.MsTest.UI
 {
@@ -91,7 +90,7 @@ namespace SharpKit.MsTest.UI
             {
                 if (view.IsSelected)
                 {
-                    string assemblyName = view.ClassModel.Type.As<JsObject>()["_JsType"].As<JsType>().assemblyName;
+                    string assemblyName = view.ClassModel.Type.Assembly.GetName().Name;
                     TestAssemblyModel assemblyModel;
                     if (!result.TryGetValue(view.ClassModel.Type.FullName, out assemblyModel))
                         result[view.ClassModel.Type.FullName] = assemblyModel = new TestAssemblyModel(assemblyName);

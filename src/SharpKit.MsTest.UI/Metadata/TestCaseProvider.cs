@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SharpKit.JavaScript;
-using SharpKit.JavaScript.Compilation;
 using SharpKit.MsTest.Metadata;
 using System;
 using System.Collections.Generic;
@@ -39,7 +38,7 @@ namespace SharpKit.MsTest.Metadata
             Dictionary<string, TestAssemblyModel> result = new Dictionary<string, TestAssemblyModel>();
             foreach (Type type in types)
             {
-                string assemblyName = type.As<JsObject>()["_JsType"].As<JsType>().assemblyName;
+                string assemblyName = type.Assembly.GetName().Name;
                 TestAssemblyModel assembly;
                 if (!result.TryGetValue(assemblyName, out assembly))
                     result[assemblyName] = assembly = new TestAssemblyModel(assemblyName);
@@ -88,7 +87,7 @@ namespace SharpKit.MsTest.Metadata
             assemblyModel.AddClass(model);
         }
 
-        [JsMethod(Code = "return JsCompiler.Types;")]
+        [JsMethod(Code = "return JsRuntime.GetTypes();")]
         private JsObject GetClasses()
         {
             return null;

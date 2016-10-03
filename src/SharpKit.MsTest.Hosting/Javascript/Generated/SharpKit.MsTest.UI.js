@@ -525,7 +525,7 @@ var SharpKit$MsTest$UI$GroupView = {
             while ($it8.MoveNext()){
                 var view = $it8.get_Current();
                 if (view.get_IsSelected()){
-                    var assemblyName = view.get_ClassModel().get_Type()["_JsType"].assemblyName;
+                    var assemblyName = view.get_ClassModel().get_Type().get_Assembly().GetName().get_Name();
                     var assemblyModel;
                     if (!(function (){
                         var $1 = {
@@ -674,7 +674,7 @@ var SharpKit$MsTest$Metadata$TestCaseProvider = {
             var $it9 = types.GetEnumerator();
             while ($it9.MoveNext()){
                 var type = $it9.get_Current();
-                var assemblyName = type["_JsType"].assemblyName;
+                var assemblyName = type.get_Assembly().GetName().get_Name();
                 var assembly;
                 if (!(function (){
                     var $1 = {
@@ -712,7 +712,7 @@ var SharpKit$MsTest$Metadata$TestCaseProvider = {
             assemblyModel.AddClass(model);
         },
         GetClasses: function (){
-            return JsCompiler.Types;
+            return JsRuntime.GetTypes();
         }
     },
     ctors: [{

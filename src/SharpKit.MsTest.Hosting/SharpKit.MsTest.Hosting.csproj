@@ -66,6 +66,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Javascript\Generated\SharpKit.ExtendedClr.Compilation.js" />
+    <Content Include="Javascript\Generated\SharpKit.ExtendedClr.js" />
     <Content Include="Javascript\Generated\UnitTest.js" />
     <Content Include="packages.config" />
     <None Include="compilerconfig.json" />

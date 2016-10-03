@@ -1,5 +1,4 @@
 ﻿using SharpKit.JavaScript;
-using SharpKit.JavaScript.Compilation;
 using SharpKit.MsTest.Metadata;
 using System;
 using System.Collections.Generic;
